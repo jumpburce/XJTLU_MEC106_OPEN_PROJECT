@@ -87,19 +87,19 @@ void WriteMPUReg(int nReg, unsigned char nVal) {
 
 void config_mpu()
 {
-  Wire.beginTransmission(mpu_addr); //开启MPU-6050的传输
-  Wire.write(0x1C); //加速度倍率寄存器的地址
-//  Wire.requestFrom(mpu_addr, 1, true); //先读出原配置
+  Wire.beginTransmission(mpu_addr); //Turn on the transmission of MPU-6050
+  Wire.write(0x1C); //Address of acceleration multiplier register
+//  Wire.requestFrom(mpu_addr, 1, true); //Read out the original configuration first
 //  unsigned char acc_conf = Wire.read();
   unsigned char acc_conf = (0 << 3);
   Wire.write(acc_conf);
-  Wire.endTransmission(true); //结束传输，true表示释放总线
-  Wire.beginTransmission(mpu_addr); //开启MPU-6050的传输
-  Wire.write(0x1B); //角速度倍率寄存器的地址
+  Wire.endTransmission(true); //End the transfer, true means release the bus
+  Wire.beginTransmission(mpu_addr); //Turn on the transmission of MPU-6050
+  Wire.write(0x1B); //Address of the angular speed multiplier register
   unsigned char gw_conf = Wire.read();
   acc_conf = (0 << 3);
   Wire.write(gw_conf);
-  Wire.endTransmission(true); //结束传输，true表示释放总线  
+  Wire.endTransmission(true); //End the transfer, true means release the bus
 }
 
 unsigned char ReadMPUReg(int nReg) {
@@ -113,13 +113,13 @@ unsigned char ReadMPUReg(int nReg) {
 float get_az()
 {
   int val;
-  Wire.beginTransmission(mpu_addr); //开启MPU-6050的传输
-  Wire.write(0x3F); //指定寄存器地址
-  Wire.requestFrom(mpu_addr, 2, true); //将输据读出到缓存
-  val = Wire.read() << 8 | Wire.read(); //两个字节组成一个16位整数
+  Wire.beginTransmission(mpu_addr); //Turn on the transmission of MPU-6050
+  Wire.write(0x3F); //Specify the register address
+  Wire.requestFrom(mpu_addr, 2, true); //Read out data to cache
+  val = Wire.read() << 8 | Wire.read(); //Two bytes form a 16-bit integer
   float az=(float)val/32768.0*2.0*9.8f;
   Serial.print("az:");Serial.println(az);
-  Wire.endTransmission(true); //结束传输，true表示释放总线
+  Wire.endTransmission(true); //End the transfer, true means release the bus
   return az;  
 }
 
@@ -181,8 +181,8 @@ void loop(){
        //u8g2.setDisplayRotation(0);
       u8g2.setFont(u8g2_font_ncenB10_tr);
       curs_scl = count_scl/10;
-      u8g2.drawXBMP(32,64 - curs_scl,bmp1_x, bmp1_y,bmpsand);
-      for(int i = 0;i<64;i=i+10){
+      u8g2.drawXBMP(32,64 - curs_scl,bmp1_x, bmp1_y,bmpsand);//Screen generation using dot matrix
+      for(int i = 0;i<64;i=i+10){//Draw the picture of sand leaking down
       u8g2.drawVLine(64, i+curs*2, 3);
       u8g2.drawVLine(63, i+curs*3, 4);
       u8g2.drawVLine(65, i+curs*2, 3);
@@ -193,12 +193,12 @@ void loop(){
     u8g2.firstPage();
     do{
       u8g2.drawXBMP(32,1,bmp1_x, bmp1_y,bmpsand);
-      for(int i = 0; i<curs_scl;i++){
+      for(int i = 0; i<curs_scl;i++){//Use the black bar to cover the hourglass dot pattern to achieve the image of the sand leaking down
       u8g2.drawXBMP(32,64-i,64, 1,bmpblank);
       //u8g2.drawXBMP(32, i, 64, 1, bmpblank);
       }
     }while(u8g2.nextPage());
-    count_scl+=10;
+    count_scl+=10;//With the passage of time plus value
     }
     
   }
@@ -242,7 +242,7 @@ void loop(){
       u8g2.drawVLine(65, i+curs*2, 3);
       }
     }while(u8g2.nextPage());
-    count_scl-=10;
+    count_scl-=10;//With the passage of time minus value
     }
   }
   //-----------------------------horizontal
