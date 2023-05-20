@@ -170,14 +170,15 @@ void loop(){
     else{
       curs = 0;
     }
-    if(count_scl == 6000){
+    if(count_scl == 640){
       
     }
     else{
     //----------------------------OLED_1
-      tcaselect(1);
+      tcaselect(0);
       u8g2.firstPage();
     do{
+       //u8g2.setDisplayRotation(0);
       u8g2.setFont(u8g2_font_ncenB10_tr);
       curs_scl = count_scl/10;
       u8g2.drawXBMP(32,64 - curs_scl,bmp1_x, bmp1_y,bmpsand);
@@ -188,15 +189,16 @@ void loop(){
       }
     }while(u8g2.nextPage());
     //-----------------------------OLED_0
-    tcaselect(0);
+    tcaselect(1);
     u8g2.firstPage();
     do{
       u8g2.drawXBMP(32,1,bmp1_x, bmp1_y,bmpsand);
       for(int i = 0; i<curs_scl;i++){
       u8g2.drawXBMP(32,64-i,64, 1,bmpblank);
+      //u8g2.drawXBMP(32, i, 64, 1, bmpblank);
       }
     }while(u8g2.nextPage());
-    count_scl++;
+    count_scl+=10;
     }
     
   }
@@ -211,7 +213,7 @@ void loop(){
     else{
       curs = 0;
     }
-    if(count_scl == 6000){
+    if(count_scl == 0){
       
     }
     else{
@@ -238,11 +240,11 @@ void loop(){
       u8g2.drawVLine(65, i+curs*2, 3);
       }
     }while(u8g2.nextPage());
-    count_scl--;
+    count_scl-=10;
     }
   }
   //-----------------------------horizontal
-  else if (get_az() <=6 || get_az() >= -6){
+  /*else if (get_az() <=6 || get_az() >= -6){
         each_second--;
        if(!each_second)
        {
@@ -273,6 +275,7 @@ void loop(){
        {
           tcaselect(0);
           u8g2.firstPage();
+          //u8g2.setDisplayRotation(90);
           do {
             u8g2.setFont(u8g2_font_ncenB14_tr);
             u8g2.drawStr(32,32,hour);
@@ -292,6 +295,6 @@ void loop(){
           //  printf("%s", second);
            add_flag = false;
        }
-  }
+  }*/
   delay(10);
   }
