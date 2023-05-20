@@ -242,7 +242,7 @@ void loop(){
       u8g2.drawVLine(65, i+curs*2, 3);
       }
     }while(u8g2.nextPage());
-    count_scl+=10;
+    count_scl-=10;
     }
   }
   //-----------------------------horizontal
