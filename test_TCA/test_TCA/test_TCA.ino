@@ -147,6 +147,7 @@ void setup()
 
 int curs = 0;
 int count_scl= 0;
+int count_rev= 0;
 int curs_scl = 0;
 
 int second_count = 0, min_count = 0 , hour_count = 0, each_second = 100;
@@ -173,7 +174,7 @@ void loop(){
       
     }
     else{
-    //----------------------------OLED_1
+    //----------------------------OLED_0
       tcaselect(0);
       u8g2.firstPage();
     do{
@@ -188,7 +189,7 @@ void loop(){
       u8g2.drawVLine(65, i+curs*2, 3);
       }
     }while(u8g2.nextPage());
-    //-----------------------------OLED_0
+    //-----------------------------OLED_1
     tcaselect(1);
     u8g2.firstPage();
     do{
@@ -204,7 +205,7 @@ void loop(){
   }
   //-----------------------------down
   else if (get_az()<-8){
-    
+    count_rev = 640-count_scl;
     if(curs == 0){
       curs = 1;
     }
@@ -218,8 +219,9 @@ void loop(){
       
     }
     else{
-    //----------------------------OLED_1
-      tcaselect(1);
+    //----------------------------OLED_0
+    curs_scl = count_rev/10;
+      tcaselect(0);
       u8g2.firstPage();
     do{
       u8g2.setDisplayRotation(U8G2_R0);
@@ -229,12 +231,11 @@ void loop(){
       }
     }while(u8g2.nextPage());
 
-    //-----------------------------OLED_0
-    tcaselect(0);
+    //-----------------------------OLED_1
+    tcaselect(1);
     u8g2.firstPage();
     do{
       u8g2.setFont(u8g2_font_ncenB10_tr);
-      curs_scl = count_scl/10;
       u8g2.drawXBMP(32,64 - curs_scl,bmp1_x, bmp1_y,bmpsand);
       for(int i = 0;i<64;i=i+10){
       u8g2.drawVLine(64, i+curs*2, 3);
