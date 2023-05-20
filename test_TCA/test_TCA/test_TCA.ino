@@ -204,6 +204,7 @@ void loop(){
   }
   //-----------------------------down
   else if (get_az()<-8){
+    count_scl = 64 - count_scl;
     if(curs == 0){
       curs = 1;
     }
@@ -218,7 +219,7 @@ void loop(){
     }
     else{
     //----------------------------OLED_1
-      tcaselect(1);
+      tcaselect(0);
       u8g2.firstPage();
     do{
       u8g2.setDisplayRotation(U8G2_R0);
@@ -229,7 +230,7 @@ void loop(){
     }while(u8g2.nextPage());
 
     //-----------------------------OLED_0
-    tcaselect(0);
+    tcaselect(1);
     u8g2.firstPage();
     do{
       u8g2.setFont(u8g2_font_ncenB10_tr);
@@ -241,7 +242,7 @@ void loop(){
       u8g2.drawVLine(65, i+curs*2, 3);
       }
     }while(u8g2.nextPage());
-    count_scl-=10;
+    count_scl+=10;
     }
   }
   //-----------------------------horizontal
