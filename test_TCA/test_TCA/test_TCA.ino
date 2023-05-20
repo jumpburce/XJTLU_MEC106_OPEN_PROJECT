@@ -24,7 +24,6 @@ void tcaselect(uint8_t i) {
 }
 
 //--------------------------bmp image
-
 static const unsigned char bmp1[] U8X8_PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -150,7 +149,7 @@ int curs = 0;
 int count_scl= 0;
 int curs_scl = 0;
 
-int second_count = 0, min_count = 0, hour_count = 0, each_second = 100;
+int second_count = 0, min_count = 0 , hour_count = 0, each_second = 100;
 char second[32] ,min[32] , hour[32];
 bool add_flag = false;
 
@@ -178,6 +177,7 @@ void loop(){
       tcaselect(0);
       u8g2.firstPage();
     do{
+      u8g2.setDisplayRotation(U8G2_R0);
        //u8g2.setDisplayRotation(0);
       u8g2.setFont(u8g2_font_ncenB10_tr);
       curs_scl = count_scl/10;
@@ -221,6 +221,7 @@ void loop(){
       tcaselect(1);
       u8g2.firstPage();
     do{
+      u8g2.setDisplayRotation(U8G2_R0);
       u8g2.drawXBMP(32,1,bmp1_x, bmp1_y,bmpsand);
       for(int i = 0; i<curs_scl;i++){
       u8g2.drawXBMP(32,64-i,64, 1,bmpblank);
@@ -244,8 +245,9 @@ void loop(){
     }
   }
   //-----------------------------horizontal
-  /*else if (get_az() <=6 || get_az() >= -6){
-        each_second--;
+  else if (get_az() <=6 || get_az() >= -6){
+
+      each_second--;
        if(!each_second)
        {
            second_count++;
@@ -268,33 +270,33 @@ void loop(){
                hour_count =0;
            }
        }
-       sprintf(hour,"%d:",hour_count);
-       sprintf(min,"%d:",min_count);
+       sprintf(hour,"%d ",hour_count);
+       sprintf(min,"%d ",min_count);
        sprintf(second,"%d\n",second_count);
        if(add_flag)
        {
           tcaselect(0);
           u8g2.firstPage();
-          //u8g2.setDisplayRotation(90);
+          
           do {
+            u8g2.setDisplayRotation(U8G2_MIRROR);
             u8g2.setFont(u8g2_font_ncenB14_tr);
-            u8g2.drawStr(32,32,hour);
-            u8g2.drawStr(54,32,min);
-            u8g2.drawStr(76,32,second);
+            u8g2.setFontDirection(1);
+            u8g2.drawStr(60,15,hour);
+            u8g2.drawStr(60,30,min);
+            u8g2.drawStr(60,45,second);
           } while ( u8g2.nextPage() );
             tcaselect(1);
           u8g2.firstPage();
           do {
             u8g2.setFont(u8g2_font_ncenB14_tr);
-            u8g2.drawStr(32,32,hour);
-            u8g2.drawStr(54,32,min);
-            u8g2.drawStr(76,32,second);
+            u8g2.drawStr(68,44,hour);
+            u8g2.drawStr(50,44,min);
+            u8g2.drawStr(32,44,second);
           } while ( u8g2.nextPage() );
-          //  printf("%s", hour);
-          //  printf("%s", min);
-          //  printf("%s", second);
            add_flag = false;
        }
-  }*/
+       
+  }
   delay(10);
   }
