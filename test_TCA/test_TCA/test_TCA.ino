@@ -204,7 +204,7 @@ void loop(){
   }
   //-----------------------------down
   else if (get_az()<-8){
-    count_scl = 64 - count_scl;
+    
     if(curs == 0){
       curs = 1;
     }
