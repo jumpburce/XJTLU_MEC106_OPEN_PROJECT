@@ -150,7 +150,7 @@ int curs = 0;
 int count_scl= 0;
 int curs_scl = 0;
 
-int second_count = 0, min_count = 0, hour_count = 0, each_second = 10000000;
+int second_count = 0, min_count = 0, hour_count = 0, each_second = 100;
 char second[32] ,min[32] , hour[32];
 bool add_flag = false;
 
@@ -198,7 +198,6 @@ void loop(){
     }while(u8g2.nextPage());
     count_scl++;
     }
-    
     
   }
   //-----------------------------down
@@ -248,7 +247,7 @@ void loop(){
        if(!each_second)
        {
            second_count++;
-           each_second = 10000000;
+           each_second = 100;
            add_flag = true;
        }
        if (second_count ==60)
@@ -276,9 +275,17 @@ void loop(){
           u8g2.firstPage();
           do {
             u8g2.setFont(u8g2_font_ncenB14_tr);
-            u8g2.drawStr(0,24,hour);
-            u8g2.drawStr(16,24,min);
-            u8g2.drawStr(32,24,second);
+            u8g2.drawStr(32,32,hour);
+            u8g2.drawStr(54,32,min);
+            u8g2.drawStr(76,32,second);
+          } while ( u8g2.nextPage() );
+            tcaselect(1);
+          u8g2.firstPage();
+          do {
+            u8g2.setFont(u8g2_font_ncenB14_tr);
+            u8g2.drawStr(32,32,hour);
+            u8g2.drawStr(54,32,min);
+            u8g2.drawStr(76,32,second);
           } while ( u8g2.nextPage() );
           //  printf("%s", hour);
           //  printf("%s", min);
